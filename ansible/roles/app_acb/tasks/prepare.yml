@@ -1,19 +1,16 @@
 ---
 - name: install unzip
-  yum:
+  apt:
     name: "{{ item }}"
     state: present
   with_items:
     - "unzip"
     - "tar"
-  become: yes
-
 
 - name: create user's group for the app
   group:
     name: "{{ app_group }}"
     system: yes
-  become: yes
 
 - name: create user for the app
   user:
@@ -22,7 +19,6 @@
     name: "{{ app_acb_owner }}"
     shell: /sbin/nologin
     system: yes
-  become: yes
 
 - name: Create directories for the app
   file:
