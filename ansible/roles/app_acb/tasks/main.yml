@@ -20,9 +20,9 @@
     group: "{{ app_acb_group }}"
     mode: 0750
 
-- name: install systemd service
+- name: Install systemd service
   template:
-    src: application.service.j2
+    src: app_acb.service.j2
     dest: "/etc/systemd/system/{{ app_acb_service_name }}.service"
     owner: root
     group: root
