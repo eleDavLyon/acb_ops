@@ -34,7 +34,7 @@
 - name: Enable and Launch service
   systemd:
     state: started
-    name: "{{ app_acb_service_name }}"
+    name: "{{ app_acb_service_name }}.service"
     enabled: yes
 
 - name: Add Iptables rule
