@@ -16,7 +16,6 @@
     password: "{{ postgres_user_password }}"
     role_attr_flags: "{{ postgres_user_role }}"
     state: present
-  with_items: "{{ postgres_instance_dbs }}"
 
 - name: Create database
   postgresql_db:
