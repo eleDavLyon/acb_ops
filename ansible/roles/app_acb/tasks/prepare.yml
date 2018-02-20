@@ -9,7 +9,7 @@
 
 - name: create user's group for the app
   group:
-    name: "{{ app_group }}"
+    name: "{{ app_acb_group }}"
     system: yes
 
 - name: create user for the app
