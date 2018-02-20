@@ -29,8 +29,7 @@
     mode: 0644
 
 - name: Reload service configuration.
-  command: >
-    systemctl daemon-reload
+  command: /bin/systemctl daemon-reload
 
 - name: Enable and Launch service
   systemd:
