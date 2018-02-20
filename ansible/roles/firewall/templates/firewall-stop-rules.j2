@@ -1,0 +1,21 @@
+#!/bin/bash  
+
+echo "Stopping Iptables Firewall."
+
+IPTABLES=/sbin/iptables
+
+# Flush iptables.
+$IPTABLES -F
+$IPTABLES -t filter -F
+# Delete chains.
+$IPTABLES -X
+
+# Add "ACCEPT" policy for tables
+$IPTABLES -P INPUT ACCEPT
+$IPTABLES -P FORWARD ACCEPT
+$IPTABLES -P OUTPUT ACCEPT
+
+$IPTABLES -t filter -P INPUT ACCEPT
+$IPTABLES -t filter -P FORWARD ACCEPT
+$IPTABLES -t filter -P OUTPUT ACCEPT
+exit 0

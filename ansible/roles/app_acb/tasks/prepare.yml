@@ -1,0 +1,43 @@
+---
+- name: install unzip
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "unzip"
+    - "tar"
+  become: yes
+
+- name: create temp dir
+  file:
+    state: directory
+    path: "{{ temp }}"
+
+- name: create group
+  group:
+    name: "{{ app_group }}"
+    system: yes
+  become: yes
+
+- name: create user
+  user:
+    createhome: no
+    group: "{{ app_group }}"
+    name: "{{ app_owner }}"
+    shell: /sbin/nologin
+    system: yes
+  become: yes
+
+
+- name: Create Spring Boot directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    recurse: yes
+  with_items:
+    - "{{ springboot_main_directory }}"
+    - "{{ springboot_jar_directory }}"
+    - "{{ springboot_conf_directory }}"
+    - "{{ springboot_logs_directory }}"

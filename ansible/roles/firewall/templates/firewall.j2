@@ -1,0 +1,44 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          firewall
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: start/stop/restart/status iptables at boot
+# Description:       start/stop/restart/status iptables at boot
+### END INIT INFO
+# By: Eric LEGBA
+
+IPTABLES=/sbin/iptables
+IPTABLES_SAVE=/sbin/iptables-save
+# Script to start/stop/restart/status iptables rules
+case "$1" in
+  start)
+    . /etc/firewall-start-rules
+    ;;
+  stop)
+    . /etc/firewall-stop-rules
+    ;;
+  restart)
+    echo "Restarting Iptables Firewall."
+    . /etc/firewall-start-rules.sh
+    ;;
+  status)
+    echo -e "`$IPTABLES -L -n`"
+    EXIT=4 # program or service status is unknown
+    NUMBER_OF_RULES=$($IPTABLES_SAVE | grep '^\-' | wc -l)
+    if [ 0 -eq $NUMBER_OF_RULES ]; then
+        EXIT=3 # program is not running
+    else
+        EXIT=0 # program is running or service is OK
+    fi
+    exit $EXIT
+    ;;
+  *)
+    echo "Usage: /etc/init.d/iptables {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit 0

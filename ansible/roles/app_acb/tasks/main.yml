@@ -1,0 +1,51 @@
+---
+# tasks file for springboot_apps
+
+-include: prepare.yml
+
+- name: Download Spring Boot application jar
+  get_url:
+    url: "{{ springboot_nexus_url }}?r={{ springboot_apps_repository }}&g={{ springboot_apps_groupid }}&a={{ springboot_apps_artifactid }}&v={{ springboot_apps_version }}&p={{ springboot_apps_package }}"
+    dest: "{{ springboot_jar_directory }}/{{ springboot_apps_jar_name }}"
+    owner: "{{ springboot_user }}"
+    group: "{{ springboot_group }}"
+    force: yes
+    mode: 0755
+
+- name: Copy Spring Boot application configuration directory
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ springboot_user }}"
+    group: "{{ springboot_group }}"
+    mode: "0750"
+  with_items: "{{ springboot_apps_conf_files }}"
+
+
+- name: install systemd service
+  template:
+     src: daemon.service.j2
+     dest: "/etc/systemd/system/{{ service_name }}.service"
+     mode: 0644
+  become: yes
+- name: start service {{ service_name }}
+  systemd:
+    state: started
+    name: "{{ service_name }}"
+    enabled: yes
+  become: yes
+
+
+- name: Add Iptables rule
+  include: iptables.yml
+
+
+- name: Enable springboot service
+  service:
+    name: springboot
+    enabled: yes
+
+- name: Start springboot service
+  service:
+    name: springboot
+    state: started

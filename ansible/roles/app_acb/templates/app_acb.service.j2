@@ -1,0 +1,10 @@
+[Unit]
+Description={{ service_name }}
+After={{ service_after }}
+
+[Service]
+User={{ service_user }}
+ExecStart={{ service_start_script }}
+
+[Install]
+WantedBy=multi-user.target

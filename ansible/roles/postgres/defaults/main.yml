@@ -1,0 +1,16 @@
+---
+# defaults file for postgres
+postgres_port: 5432
+postgres_goss_enabled: False
+postgres_version: 9.6
+postgres_server_pkg: "postgresql-{{postgres_version}}"
+postgres_client_pkg: "postgresql-client-{{postgres_version}}"
+postgres_conf_dir: "/etc/postgresql/{{postgres_version}}/main"
+postgres_pg_hba_file: "{{ postgres_conf_dir }}/pg_hba.conf"
+postgres_user:
+postgres_password:
+postgres_user_role:
+postgres_database:
+posgres_schema:
+postgres_instance_dbs:
+  - { db_user: 'apps', db_password: "apps", db_user_roles: 'CREATEDB',  db_name: 'apps', db_schema: 'apps' }

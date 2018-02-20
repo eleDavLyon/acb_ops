@@ -1,0 +1,41 @@
+---
+# tasks file for firewall
+- name: Stop firewall script and disable it.
+  service:
+    name: firewall
+    state: stopped
+    enabled: no
+  ignore_errors: true
+
+- name: Installing iptables package
+  apt:
+    pkg: iptables
+    state: present
+
+- name: Copy firewall files into directories
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: "{{item.mode}}"
+  with_items:
+   - "{{ firewall_script_files }}"
+
+- name: Reload service configuration.
+  command: >
+    systemctl daemon-reload
+
+- name: Enable firewall service
+  service:
+    name: firewall
+    enabled: yes
+
+- name: Start firewall service
+  service:
+    name: firewall
+    state: started
+
+- name: Test with goss
+  include: goss.yml
+  when: firewall_goss_enabled

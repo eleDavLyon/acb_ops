@@ -1,0 +1,27 @@
+---
+# tasks file for openjdk8
+
+- name: Install open JDK 8
+  apt:
+    name: openjdk-8-jdk
+    state: present
+
+- name: Define JAVA_HOME variable for 32 bits machine
+  lineinfile:
+    path: /etc/environment
+    line: 'JAVA_HOME="/usr/lib/jvm/java-8-openjdk-i386"'
+    owner: root
+    group: root
+  notify:
+    - Relaod environments variables
+  when: "ansible_userspace_bits == '32'"
+
+- name: Define JAVA_HOME variable for 64 bits machine
+  lineinfile:
+    path: /etc/environment
+    line: 'JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"'
+    owner: root
+    group: root
+  notify:
+    - Relaod environments variables
+  when: "ansible_userspace_bits == '64'"

@@ -1,0 +1,32 @@
+---
+
+###################
+# Securite
+###################
+- hosts: all
+  vars_files:
+   - "password/password-{{env}}.yml"
+  become: yes
+  roles:
+    - { role: firewall, tags: ['firewall'] }
+
+# ###################
+# Base de données
+# ###################
+- hosts: database
+  vars_files:
+   - "password/password-{{env}}.yml"
+  become: yes
+  roles:
+    - { role: postgres, tags: ['postgres'] }
+
+# ###################
+# Application Spring Boot
+# ###################
+- hosts: springboot
+  vars_files:
+   - "password/password-{{env}}.yml"
+  become: yes
+  roles:
+     - { role: openjdk8, tags: ['openjdk8'] }
+     - { role: app_acb, tags: ['app_acb'] }

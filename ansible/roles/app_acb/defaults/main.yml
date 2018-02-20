@@ -1,0 +1,8 @@
+---
+# defaults file for app_acb
+
+app_config_dir: /etc/acb
+app_install_dir: /opt/acb
+app_log_dir: /var/log/acb
+app_owner: acb
+app_group: acb

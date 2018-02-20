@@ -1,0 +1,67 @@
+#!/bin/bash  
+ 
+ echo "Starting Iptables Firewall."
+
+IPTABLES=/sbin/iptables
+
+# Flush iptables.
+$IPTABLES -t filter -F
+  
+# Delete chains.
+$IPTABLES -t filter -X
+
+# Block sync
+$IPTABLES -A INPUT -i {{ firewall_network_interface }} -p tcp ! --syn -m state --state NEW  -m limit --limit 5/m --limit-burst 7 -j LOG --log-level 4 --log-prefix "Drop Sync"
+$IPTABLES -A INPUT -i {{ firewall_network_interface }} -p tcp ! --syn -m state --state NEW -j DROP
+
+# Allow open connection to receive input trafic.
+$IPTABLES -t filter -A INPUT -i {{ firewall_network_interface }} -m state --state ESTABLISHED,RELATED -j ACCEPT
+  
+# Allow open connection to receive output trafic.
+$IPTABLES -t filter -A OUTPUT -o {{ firewall_network_interface }} -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allow loopback
+$IPTABLES -t filter -A INPUT -i lo -j ACCEPT
+$IPTABLES -t filter -A OUTPUT -o lo -j ACCEPT
+
+# Accept inupt/output ICMP - PING request
+$IPTABLES -t filter -A INPUT -i {{ firewall_network_interface }} -p icmp -j ACCEPT
+$IPTABLES -t filter -A OUTPUT -o {{ firewall_network_interface }} -p icmp -j ACCEPT
+
+# Allow open HTTP/HTTPS Input & Output connections to receive input/output trafic.
+$IPTABLES -A INPUT -i {{ firewall_network_interface }} -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+$IPTABLES -A OUTPUT -o {{ firewall_network_interface }} -p tcp -m multiport --dports 80,443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+
+# Add a rule for each allow input port
+{% for allow_input_port in firewall_input_allowed_ports %}
+$IPTABLES -t filter -A INPUT -i {{ firewall_network_interface }} -p {{ allow_input_port.protocol }} --dport {{ allow_input_port.port }} -j ACCEPT -m comment --comment "{{ allow_input_port.comment }}"
+{% endfor %}
+
+# Add a rule for each allow output port
+{% for allow_output_port in firewall_output_allowed_ports %}
+$IPTABLES -t filter -A OUTPUT -o {{ firewall_network_interface }} -p {{ allow_output_port.protocol }} --dport {{ allow_output_port.port }} -j ACCEPT -m comment --comment "{{ allow_output_port.comment }}"
+{% endfor %}
+
+
+# Log input trafic.
+{% if firewall_enabled_logs_input_trafic %}
+$IPTABLES -A INPUT -j LOG
+{% endif %} 
+
+# Log output trafic.
+{% if firewall_enabled_logs_output_trafic %}
+$IPTABLES -A OUTPUT -j LOG 
+{% endif %}
+
+
+# Drop input trafic.
+$IPTABLES -t filter -P INPUT DROP
+
+# Drop all output trafic.
+$IPTABLES -t filter -P OUTPUT DROP
+
+# Drop forward.
+$IPTABLES -t filter -P FORWARD DROP
+
+exit 0

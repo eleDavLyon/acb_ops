@@ -1,0 +1,40 @@
+---
+# tasks file for postgres
+
+
+- name: Installing PostgreSQL Server packages
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ postgres_server_pkg }}"
+    - "{{ postgres_client_pkg }}"
+    - "python-psycopg2"
+
+- name: Installing python-psycopg2 package
+  apt:
+    pkg: python-psycopg2
+    state: present
+
+- name: Create user
+  postgresql_user:
+    name: "{{ item.db_user }}"
+    password: "{{ item.db_password }}"
+    role_attr_flags: "{{ item.db_user_roles }}"
+    state: present
+  with_items: "{{ postgres_instance_dbs }}"
+
+- name: Create database
+  postgresql_db:
+    name: "{{ item.db_name }}"
+    owner: "{{ item.db_user }}"
+    state: present
+  with_items: "{{ postgres_instance_dbs }}"
+
+- name: Create schema
+  postgresql_schema:
+    database: "{{ item.db_name }}"
+    name: "{{ item.db_schema }}"
+    owner: "{{ item.db_user }}"
+    state: present
+  with_items: "{{ postgres_instance_dbs }}"
