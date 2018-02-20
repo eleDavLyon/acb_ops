@@ -4,7 +4,7 @@ After=syslog.target network.target
 
 [Service]
 User={{ app_acb_owner }}
-ExecStart=java -jar  {{ app_acb_jar_dir }}/{{ app_acb_jar_name }} --spring.config.location={{ app_acb_config_dir }}/
+ExecStart=/usr/bin/java -jar  {{ app_acb_jar_dir }}/{{ app_acb_jar_name }} --spring.config.location={{ app_acb_config_dir }}/
 
 [Install]
 WantedBy=multi-user.target
