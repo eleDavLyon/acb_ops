@@ -3,14 +3,14 @@
 
 - include: prepare.yml
 
-- name: Download Spring Boot fat jar from Nexus repository
-  get_url:
-    url: "{{ app_acb_nexus_url }}?r={{ app_acb_repository }}&g={{ app_acb_groupid }}&a={{ app_acb_artifactid }}&v={{ app_acb_version }}&p={{ app_acb_package }}"
-    dest: "{{ app_acb_jar_dir }}/{{ app_acb_jar_name }}"
-    owner: "{{ app_acb_owner }}"
-    group: "{{ app_acb_group }}"
-    force: yes
-    mode: 0755
+#- name: Download Spring Boot fat jar from Nexus repository
+#  get_url:
+#    url: "{{ app_acb_nexus_url }}?r={{ app_acb_repository }}&g={{ app_acb_groupid }}&a={{ app_acb_artifactid }}&v={{ app_acb_version }}&p={{ app_acb_package }}"
+#    dest: "{{ app_acb_jar_dir }}/{{ app_acb_jar_name }}"
+#    owner: "{{ app_acb_owner }}"
+#    group: "{{ app_acb_group }}"
+#    force: yes
+#    mode: 0755
 
 - name: Copy Spring Boot application configuration directory
   template:
