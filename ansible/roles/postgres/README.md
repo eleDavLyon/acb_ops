@@ -1,7 +1,7 @@
-Role Name
+postgres
 =========
 
-A brief description of the role goes here.
+Installation un serveur postgres et initialisation d'un schéma de base de données pour l'application Alerte compte bancaire.
 
 Requirements
 ------------

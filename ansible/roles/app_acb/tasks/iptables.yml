@@ -1,0 +1,24 @@
+---
+- name: Add Iptables Input trafic rule for Spring Boot {{ app_acb_service_description }}
+  iptables:
+    action: insert
+    chain: INPUT
+    protocol: tcp
+    ctstate: NEW,ESTABLISHED
+    in_interface: "{{ app_acb_network_interface }}"
+    destination_port: "{{ app_acb_http_port }}"
+    jump: ACCEPT
+    state: present
+    comment: "TCP - Server HTTP Input trafic - {{ app_acb_service_description }}"
+
+- name: Add Iptables Output trafic rule for Spring Boot {{ app_acb_service_description }}
+  iptables:
+    action: insert
+    chain: OUTPUT
+    protocol: tcp
+    ctstate: NEW,ESTABLISHED
+    out_interface: "{{ app_acb_network_interface }}"
+    source_port: "{{ app_acb_http_port }}"
+    jump: ACCEPT
+    state: present
+    comment: "TCP - HTTP Output trafic - {{ app_acb_service_description }}"

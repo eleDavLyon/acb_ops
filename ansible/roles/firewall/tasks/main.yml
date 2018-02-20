@@ -35,7 +35,3 @@
   service:
     name: firewall
     state: started
-
-- name: Test with goss
-  include: goss.yml
-  when: firewall_goss_enabled

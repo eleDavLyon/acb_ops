@@ -1,0 +1,9 @@
+---
+
+nexus_url: "nexus.davidson.fr:8081"
+
+# Parametrage de la bdd
+postgres_user: "acb_bdd"
+postgres_user_role: "CREATEDB"
+postgres_database: "acb_bdd"
+posgres_schema: "acb_bdd"

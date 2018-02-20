@@ -1,51 +1,42 @@
 ---
 # tasks file for springboot_apps
 
--include: prepare.yml
+- include: prepare.yml
 
-- name: Download Spring Boot application jar
+- name: Download Spring Boot fat jar from Nexus repository
   get_url:
-    url: "{{ springboot_nexus_url }}?r={{ springboot_apps_repository }}&g={{ springboot_apps_groupid }}&a={{ springboot_apps_artifactid }}&v={{ springboot_apps_version }}&p={{ springboot_apps_package }}"
-    dest: "{{ springboot_jar_directory }}/{{ springboot_apps_jar_name }}"
-    owner: "{{ springboot_user }}"
-    group: "{{ springboot_group }}"
+    url: "{{ app_acb_nexus_url }}?r={{ app_acb_repository }}&g={{ app_acb_groupid }}&a={{ app_acb_artifactid }}&v={{ app_acb_version }}&p={{ app_acb_package }}"
+    dest: "{{ app_acb_jar_dir }}/{{ app_acb_jar_name }}"
+    owner: "{{ app_acb_owner }}"
+    group: "{{ app_acb_group }}"
     force: yes
     mode: 0755
 
 - name: Copy Spring Boot application configuration directory
   template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ springboot_user }}"
-    group: "{{ springboot_group }}"
-    mode: "0750"
-  with_items: "{{ springboot_apps_conf_files }}"
-
+    src: application.properties.j2
+    dest: "{{ app_acb_config_dir }}/application.properties"
+    owner: "{{ app_acb_owner }}"
+    group: "{{ app_acb_group }}"
+    mode: 0750
 
 - name: install systemd service
   template:
-     src: daemon.service.j2
-     dest: "/etc/systemd/system/{{ service_name }}.service"
-     mode: 0644
-  become: yes
-- name: start service {{ service_name }}
+    src: application.service.j2
+    dest: "/etc/systemd/system/{{ app_acb_service_name }}.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Reload service configuration.
+  command: >
+    systemctl daemon-reload
+
+- name: Enable and Launch service
   systemd:
     state: started
-    name: "{{ service_name }}"
+    name: "{{ app_acb_service_name }}"
     enabled: yes
-  become: yes
-
 
 - name: Add Iptables rule
   include: iptables.yml
-
-
-- name: Enable springboot service
-  service:
-    name: springboot
-    enabled: yes
-
-- name: Start springboot service
-  service:
-    name: springboot
-    state: started

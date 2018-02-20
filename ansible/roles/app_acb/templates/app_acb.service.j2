@@ -1,10 +1,10 @@
 [Unit]
-Description={{ service_name }}
-After={{ service_after }}
+Description={{ app_acb_service_description }}
+After=syslog.target network.target
 
 [Service]
-User={{ service_user }}
-ExecStart={{ service_start_script }}
+User={{ app_acb_owner }}
+ExecStart=java -jar  {{ app_acb_jar_dir }}/{{ app_acb_jar_name }} --spring.config.location={{ app_acb_config_dir }}/
 
 [Install]
 WantedBy=multi-user.target

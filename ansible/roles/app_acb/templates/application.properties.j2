@@ -1,0 +1,53 @@
+# Get informations about all properties ? https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+# Port HTTP du serveur
+server.port={{ app_acb_http_port }}
+spring.datasource.platform=postgres
+spring.database.driverClassName={{ app_acb_database_driverClassName }}
+spring.datasource.url={{ app_acb_datasource_url }}
+spring.datasource.username={{ app_acb_db_user }}
+spring.datasource.password={{ app_acb_db_user_password }}
+
+# SPRING BATCH (BatchProperties)
+# Create the required batch tables on startup if necessary. Enabled automatically if no custom table prefix is set or if a custom schema is configured.
+spring.batch.initializer.enabled=false
+
+# Execute all Spring Batch jobs in the context on startup. (true or false)
+spring.batch.job.enabled=false
+
+logging.level.org.springframework=INFO
+
+# Email (MailProperties)
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=eleDavLyon@gmail.com
+spring.mail.password=si191985V
+spring.mail.protocol=smtp
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.default-encoding=UTF-8
+
+
+# Logging
+logging.level.org.springframework=INFO
+logging.level.fr.davidson=WARN
+# Logging pattern for the console
+logging.pattern.console= "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+# Logging pattern for file
+logging.pattern.file= "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#output to a log file
+logging.file={{ app_acb_log_dir }}/application.log
+
+# Configuration pour les fichiers logs d'accès au serveur
+server.tomcat.accesslog.buffered=true
+server.tomcat.accesslog.directory={{ app_acb_log_dir }}
+server.tomcat.accesslog.enabled=true
+server.tomcat.accesslog.file-date-format=.yyyy-MM-dd
+server.tomcat.accesslog.pattern=common
+server.tomcat.accesslog.prefix=localhost_access_log
+server.tomcat.accesslog.rename-on-rotate=false
+server.tomcat.accesslog.request-attributes-enabled=false
+server.tomcat.accesslog.rotate=true
+server.tomcat.accesslog.suffix=.log
+
+# Autres configurations
+input.file.dir={{ app_acb_files_dir }}

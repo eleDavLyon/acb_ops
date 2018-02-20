@@ -1,8 +1,27 @@
 ---
 # defaults file for app_acb
 
-app_config_dir: /etc/acb
-app_install_dir: /opt/acb
-app_log_dir: /var/log/acb
-app_owner: acb
-app_group: acb
+app_acb_config_dir: /etc/acb
+app_acb_jar_dir: /opt/acb
+app_acb_files_dir: "{{ app_acb_jar_dir }}/files"
+app_acb_log_dir: /var/log/acb
+app_acb_owner: acb
+app_acb_group: acb
+app_acb_db_user:
+app_acb_db_user_password:
+app_acb_db_database:
+app_acb_db_schema:
+app_acb_database_driverClassName: "org.postgresql.Driver"
+app_acb_datasource_url: "jdbc:postgresql://localhost:5432/{{ app_acb_db_database }}?currentSchema={{ app_acb_db_schema }}"
+app_acb_service_name: acb
+app_acb_service_description: "API ACB - Davidson"
+app_acb_base_nexus: ""
+app_acb_nexus_url: "{{ app_acb_base_nexus }}/service/local/artifact/maven/content"
+app_acb_repository: "snapshots"
+app_acb_groupid: "fr.davidson"
+app_acb_artifactid: "acb_server"
+app_acb_version: "LATEST"
+app_acb_package: "jar"
+app_acb_jar_name: "acb_server.jar"
+app_acb_http_port: "8080"
+app_acb_network_interface: "eth0"

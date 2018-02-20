@@ -8,36 +8,31 @@
     - "tar"
   become: yes
 
-- name: create temp dir
-  file:
-    state: directory
-    path: "{{ temp }}"
 
-- name: create group
+- name: create user's group for the app
   group:
     name: "{{ app_group }}"
     system: yes
   become: yes
 
-- name: create user
+- name: create user for the app
   user:
     createhome: no
-    group: "{{ app_group }}"
-    name: "{{ app_owner }}"
+    group: "{{ app_acb_group }}"
+    name: "{{ app_acb_owner }}"
     shell: /sbin/nologin
     system: yes
   become: yes
 
-
-- name: Create Spring Boot directories
+- name: Create directories for the app
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ app_user }}"
-    group: "{{ app_group }}"
+    owner: "{{ app_acb_owner }}"
+    group: "{{ app_acb_group }}"
     recurse: yes
   with_items:
-    - "{{ springboot_main_directory }}"
-    - "{{ springboot_jar_directory }}"
-    - "{{ springboot_conf_directory }}"
-    - "{{ springboot_logs_directory }}"
+    - "{{ app_acb_config_dir }}"
+    - "{{ app_acb_jar_dir }}"
+    - "{{ app_acb_files_dir }}"
+    - "{{ app_acb_log_dir }}"
