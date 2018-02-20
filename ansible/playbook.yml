@@ -29,4 +29,4 @@
   become: yes
   roles:
      - { role: openjdk8, tags: ['openjdk8'] }
-     - { role: app_acb, tags: ['app_acb'] }
+     - { role: app_acb, app_acb_db_user: "{{ postgres_user }}", app_acb_db_user_password: "{{ postgres_user_password }}",app_acb_db_database: "{{ postgres_database }}",app_acb_db_schema: "{{ posgres_schema }}", tags: ['app_acb'] }
