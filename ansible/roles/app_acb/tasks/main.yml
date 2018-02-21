@@ -33,7 +33,7 @@
 
 - name: Enable and Launch service
   systemd:
-    state: started
+    state: restarted
     name: "{{ app_acb_service_name }}.service"
     enabled: yes
 
