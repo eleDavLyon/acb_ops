@@ -24,11 +24,17 @@ grâce au versionning Git.
 
 Les jobs utilisés sont :
 * ACB_API_SNAPSHOT_BRANCH : il permet de faire des snapshots d'une version de développement (version jugée instable) de l'application. Les livrables produits sont déposés sur un repositoryNexus.
+![Aperçu 1 ](screen_shots/job_ACB_API_SNAPSHOT_BRANCH_1.png)
+![Aperçu 2 ](screen_shots/job_ACB_API_SNAPSHOT_BRANCH_2.png)
 * ACB_API_SONAR_BRANCH : ce job exécute les tests (unitaires et d'intégration) de l'application, scanne le code Java et transmet les résultat à un serveur [Sonar](https://jenkinsci.github.io/job-dsl-plugin/ "link to install Sonar").
 Les résultats des tests et la qualité du code sont consultables sur Sonar.
 ![Aperçu 1 ](screen_shots/job_ACB_API_SONAR_BRANCH_1.png)
+![Aperçu 2 ](screen_shots/job_ACB_API_SONAR_BRANCH_2.png)
+![Aperçu 3 ](screen_shots/RESULT_SONAR.png)
 * ACB_API_DEPLOIEMENT : ce job permet de déployer une version snapshot ou une release de l'application sur un environnement cible (Dev, qualif, prod, etc...). C'est un job qui combine les avantages de Jenkins, les scripts Shell et les rôles Ansible.
-
+![Aperçu 1 ](screen_shots/job_ACB_API_DEPLOY_1.png)
+![Aperçu 2 ](screen_shots/job_ACB_API_DEPLOY_2.png)
+![Aperçu 3 ](screen_shots/job_ACB_API_DEPLOY_3.png)
 Les codes Groovy des jobs sont disponibles dans le répertoire ``job``. Les scripts Shell  utilisés sont dans le répertoire ``scripts``.
 
 Ansible
