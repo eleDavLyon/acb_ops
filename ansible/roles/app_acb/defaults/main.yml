@@ -3,7 +3,7 @@
 
 app_acb_config_dir: /etc/acb
 app_acb_jar_dir: /opt/acb
-app_acb_files_dir: "{{ app_acb_jar_dir }}/files"
+app_acb_files_dir: "{{ app_acb_jar_dir }}/files/"
 app_acb_log_dir: /var/log/acb
 app_acb_owner: acb
 app_acb_group: acb
