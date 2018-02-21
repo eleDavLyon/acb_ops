@@ -30,7 +30,7 @@ Les jobs utilisés sont :
 Les résultats des tests et la qualité du code sont consultables sur Sonar.
 ![Aperçu 1 ](screen_shots/job_ACB_API_SONAR_BRANCH_1.png)
 ![Aperçu 2 ](screen_shots/job_ACB_API_SONAR_BRANCH_2.png)
-![Aperçu 3 ](screen_shots/RESULT_SONAR.png)
+![Aperçu 3 ](screen_shots/RESULT_SONAR_.png)
 * ACB_API_DEPLOIEMENT : ce job permet de déployer une version snapshot ou une release de l'application sur un environnement cible (Dev, qualif, prod, etc...). C'est un job qui combine les avantages de Jenkins, les scripts Shell et les rôles Ansible.
 ![Aperçu 1 ](screen_shots/job_ACB_API_DEPLOY_1.png)
 ![Aperçu 2 ](screen_shots/job_ACB_API_DEPLOY_2.png)
